@@ -1,12 +1,17 @@
+import random
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.transforms import Affine2D
 import os
 
+x = random.uniform(0.0, 2.0)
+y = random.uniform(0.0, 2.0)
+theta = random.uniform(0.0, 2.0)
 # ... (previous code remains unchanged)
 # Initial state [x, y, theta]
-q = np.array([1.0, 1.0, 0.0])
+q = np.array([x, y, theta])
 
 # Control input [v, omega]
 u = np.array([0.0, 0.0])
@@ -93,6 +98,7 @@ for step in range(total_steps):
     plt.pause(0.05)
 
     # Store control in the sequence
+
     control_sequence.append(current_control.copy())
 
     # Change control every steps_per_sequence steps
@@ -100,5 +106,6 @@ for step in range(total_steps):
         current_control = np.random.uniform(low=[v_min, phi_min], high=[v_max, phi_max])
 
 # Save the control sequence to a file
-control_sequence = np.array(control_sequence)
+control_sequence.insert(0, q)
+control_sequence = np.array(control_sequence, dtype=object)
 np.save(os.path.join("controls", "controls_X_Y.npy"), control_sequence)
