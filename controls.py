@@ -66,6 +66,7 @@ fig, ax = plt.subplots(figsize=(6, 6))
 fig.canvas.mpl_connect('key_press_event', on_key)
 
 # Initialize variables for control sequence
+trajectory = []
 control_sequence = []
 current_control = np.array([0.0, 0.0])  # Initial control
 
@@ -86,11 +87,19 @@ for step in range(total_steps):
         current_control = np.random.uniform(low=[v_min, phi_min], high=[v_max, phi_max])
         continue
 
+    # Store the current position in the trajectory
+    trajectory.append([q[0], q[1]])
+
     # Visualization
     plt.clf()
     ax = plt.gca()
     plt.xlim(0, 2)
     plt.ylim(0, 2)
+
+    # Draw path
+    if len(trajectory) > 1:
+        path_array = np.array(trajectory)
+        plt.plot(path_array[:, 0], path_array[:, 1], color='green', linestyle='--', linewidth=2)
 
     # Draw robot body
     draw_rotated_rectangle(ax, [q[0], q[1]], length, width, np.degrees(q[2]))
