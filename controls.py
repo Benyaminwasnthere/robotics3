@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.transforms import Affine2D
 import os
-
+landmarks_map = np.load("maps/landmarks_0.npy")
 x = random.uniform(0.0, 2.0)
 y = random.uniform(0.0, 2.0)
 theta = random.uniform(0.0, 2.0)
@@ -103,7 +103,7 @@ for step in range(total_steps):
 
     # Draw robot body
     draw_rotated_rectangle(ax, [q[0], q[1]], length, width, np.degrees(q[2]))
-
+    plt.scatter(landmarks_map[:, 0], landmarks_map[:, 1], marker='o', label='Landmarks Map 1')
     plt.pause(0.05)
 
     # Store control in the sequence
