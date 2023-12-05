@@ -75,8 +75,8 @@ total_steps = 200
 total_duration = 20.0
 steps_per_sequence = 20
 dt = total_duration / total_steps
-
-for step in range(total_steps):
+step = 0
+while len(control_sequence) < 200:
     # Update state
     dq = differential_drive_model(q, current_control)
     q += dq
@@ -107,12 +107,13 @@ for step in range(total_steps):
     plt.pause(0.05)
 
     # Store control in the sequence
-
     control_sequence.append(current_control.copy())
 
     # Change control every steps_per_sequence steps
     if (step + 1) % steps_per_sequence == 0:
         current_control = np.random.uniform(low=[v_min, phi_min], high=[v_max, phi_max])
+
+    step += 1
 
 # Save the control sequence to a file
 control_sequence.insert(0, q)
